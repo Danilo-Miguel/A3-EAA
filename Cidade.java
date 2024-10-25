@@ -57,4 +57,13 @@ public class Cidade {
         }
         return null;
     }
+
+    public void exibirCidade() {
+        for (Ponto ponto : pontos) {
+            System.out.println("Ponto: " + ponto.nome);
+            for (Rua rua : ponto.conexoes) {
+                System.out.println("  Conectado a: " + rua.destino.nome + " (Distância: " + rua.distancia + ")");
+            }
+        }
+    }
 }
