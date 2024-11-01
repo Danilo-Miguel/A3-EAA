@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * A classe Cidade representa o mapa geral da cidade, contendo os pontos e conexões.
@@ -9,12 +12,20 @@ public class Cidade {
     // Lista de todos os pontos de interesse na cidade
     List<Ponto> pontos;
 
+    // Pilha para armazenar locais temporários
+    Stack<Ponto> pilhaLocais;
+
+    // Fila para processar rotas em ordem
+    Queue<Ponto> filaRotas;
+
     /**
      * Construtor da classe Cidade.
      * Inicializa a cidade com uma lista vazia de pontos de interesse.
      */
     public Cidade() {
         this.pontos = new ArrayList<>();
+        this.pilhaLocais = new Stack<>();
+        this.filaRotas =   new LinkedList<>();
     }
 
     /**
@@ -66,4 +77,49 @@ public class Cidade {
             }
         }
     }
+ /**
+     * Adiciona um ponto à pilha de locais temporários.
+     * 
+     * @param ponto O ponto a ser adicionado à pilha.
+     */
+    public void adicionarPontoPilha(Ponto ponto){
+        pilhaLocais.push(ponto);
+    }
+
+     /**
+     * Remove e retorna o último ponto adicionado à pilha de locais temporários.
+     * 
+     * @return O ponto removido da pilha, ou null se a pilha estiver vazia.
+     */
+public Ponto removerPontoPilha(){
+    return pilhaLocais.isEmpty() ? null : pilhaLocais.pop();
+
+}
+ /**
+     * Adiciona um ponto à fila de rotas.
+     * 
+     * @param ponto O ponto a ser adicionado à fila.
+     */
+    public void adicionarPontoFila(Ponto ponto) {
+        filaRotas.offer(ponto);
+    }
+      /**
+     * Remove e retorna o primeiro ponto da fila de rotas.
+     * 
+     * @return O ponto removido da fila, ou null se a fila estiver vazia.
+     */
+    public Ponto removerPontoFila() {
+        return filaRotas.poll();
+    }
+
+    public Ponto buscaLinear(String nome) {
+        for (Ponto ponto : pontos) {
+            if (ponto.nome.equals(nome)) {
+                return ponto;
+            }
+        }
+        return null;
+    }
+
+
 }
