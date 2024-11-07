@@ -9,6 +9,19 @@ import java.util.Stack;
  * Ela permite adicionar novos pontos de interesse e conectar esses pontos com ruas.
  */
 public class Cidade {
+
+    ArvoreBinaria arvoreBusca = new ArvoreBinaria();
+
+    // Método para adicionar um ponto à árvore binária
+public void adicionarPontoArvore(Ponto ponto) {
+    arvoreBusca.adicionar(ponto);
+}
+
+// Método para buscar um ponto na árvore binária
+public Ponto buscarPontoArvore(String nome) {
+    return arvoreBusca.buscar(nome);
+}
+
     // Lista de todos os pontos de interesse na cidade
     List<Ponto> pontos;
 
