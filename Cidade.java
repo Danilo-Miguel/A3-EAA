@@ -10,18 +10,6 @@ import java.util.Stack;
  */
 public class Cidade {
 
-    ArvoreBinaria arvoreBusca = new ArvoreBinaria();
-
-    // Método para adicionar um ponto à árvore binária
-public void adicionarPontoArvore(Ponto ponto) {
-    arvoreBusca.adicionar(ponto);
-}
-
-// Método para buscar um ponto na árvore binária
-public Ponto buscarPontoArvore(String nome) {
-    return arvoreBusca.buscar(nome);
-}
-
     // Lista de todos os pontos de interesse na cidade
     List<Ponto> pontos;
 
@@ -38,7 +26,7 @@ public Ponto buscarPontoArvore(String nome) {
     public Cidade() {
         this.pontos = new ArrayList<>();
         this.pilhaLocais = new Stack<>();
-        this.filaRotas =   new LinkedList<>();
+        this.filaRotas = new LinkedList<>();
     }
 
     /**
@@ -49,6 +37,40 @@ public Ponto buscarPontoArvore(String nome) {
     public void adicionarPonto(String nome) {
         Ponto novoPonto = new Ponto(nome);
         pontos.add(novoPonto);
+    }
+
+    /**
+     * Ordena a lista de pontos por nome para realizar a busca binária.
+     */
+    public void ordenarPontos() {
+        pontos.sort((p1, p2) -> p1.nome.compareTo(p2.nome));
+    }
+
+    /**
+     * Realiza uma busca binária na lista de pontos da cidade.
+     * 
+     * @param nome O nome do ponto de interesse a ser buscado.
+     * @return O ponto de interesse encontrado, ou null se não encontrado.
+     */
+    public Ponto buscaBinaria(String nome) {
+        int esquerda = 0;
+        int direita = pontos.size() - 1;
+
+        while (esquerda <= direita) {
+            int meio = (esquerda + direita) / 2;
+            Ponto pontoMeio = pontos.get(meio);
+
+            int comparacao = pontoMeio.nome.compareTo(nome);
+
+            if (comparacao == 0) {
+                return pontoMeio; // Nome encontrado
+            } else if (comparacao < 0) {
+                esquerda = meio + 1; // Procurar na metade direita
+            } else {
+                direita = meio - 1; // Procurar na metade esquerda
+            }
+        }
+        return null; // Nome não encontrado
     }
 
     /**
@@ -82,6 +104,9 @@ public Ponto buscarPontoArvore(String nome) {
         return null;
     }
 
+    /**
+     * Exibe os pontos e conexões da cidade.
+     */
     public void exibirCidade() {
         for (Ponto ponto : pontos) {
             System.out.println("Ponto: " + ponto.nome);
@@ -90,49 +115,4 @@ public Ponto buscarPontoArvore(String nome) {
             }
         }
     }
- /**
-     * Adiciona um ponto à pilha de locais temporários.
-     * 
-     * @param ponto O ponto a ser adicionado à pilha.
-     */
-    public void adicionarPontoPilha(Ponto ponto){
-        pilhaLocais.push(ponto);
-    }
-
-     /**
-     * Remove e retorna o último ponto adicionado à pilha de locais temporários.
-     * 
-     * @return O ponto removido da pilha, ou null se a pilha estiver vazia.
-     */
-public Ponto removerPontoPilha(){
-    return pilhaLocais.isEmpty() ? null : pilhaLocais.pop();
-
-}
- /**
-     * Adiciona um ponto à fila de rotas.
-     * 
-     * @param ponto O ponto a ser adicionado à fila.
-     */
-    public void adicionarPontoFila(Ponto ponto) {
-        filaRotas.offer(ponto);
-    }
-      /**
-     * Remove e retorna o primeiro ponto da fila de rotas.
-     * 
-     * @return O ponto removido da fila, ou null se a fila estiver vazia.
-     */
-    public Ponto removerPontoFila() {
-        return filaRotas.poll();
-    }
-
-    public Ponto buscaLinear(String nome) {
-        for (Ponto ponto : pontos) {
-            if (ponto.nome.equals(nome)) {
-                return ponto;
-            }
-        }
-        return null;
-    }
-
-
 }
